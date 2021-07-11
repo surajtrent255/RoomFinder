@@ -163,7 +163,7 @@ class CustomerRegistrationView(CreateView):
         return super().form_valid(form)
 
 
-class ClientProfileView(TemplateView):
+class ClientProfileView(ClientRequiredMixin, TemplateView):
     template_name = "normal/clientProfile.html"
 
     def get_context_data(self, **kwargs):
@@ -188,7 +188,7 @@ class LandLordRegistrationView(CreateView):
         return super().form_valid(form)
 
 
-class BookCancelView(View):
+class BookCancelView(ClientRequiredMixin, View):
     def get(self, request,  *args, **kwargs):
         room_id = kwargs['pk']
         room = Room.objects.get(id=room_id)
