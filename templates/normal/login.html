@@ -1,0 +1,25 @@
+{% extends 'normal/base.html' %}
+{% block login %} active {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <h3>Login to continue</h3>
+        <hr>
+        {% if error %}
+        <li class="text-danger">{{error}}</li>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+
+            {{form.as_p}}
+
+            <button class=" btn btn-info">Login</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
