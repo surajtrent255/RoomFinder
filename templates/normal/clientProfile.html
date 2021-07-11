@@ -1,0 +1,29 @@
+{% extends 'normal/base.html' %}
+    {% block content %}
+<div class="container">
+    <div class = "row">
+        <div class = "col-md-8">
+            <h3>My profile</h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>username</th>
+                    <td> {{customer.user.username}}</td>
+                </tr>
+                <tr>
+                    <th>full_name</th>
+                    <td><i>{{customer.full_name}}</i> </td>
+                </tr>
+                <tr>
+                    <th>email</th>
+                    <td>{{customer.email}}</td>
+                </tr>
+                <tr>
+                    <th>mobile</th>
+                    <td>{{customer.mobile}}</td>
+                </tr>
+    
+            </table>
+
+    <br><hr>
+</div>
+    {% endblock %}

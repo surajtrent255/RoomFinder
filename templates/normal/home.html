@@ -1,0 +1,22 @@
+{% extends 'normal/base.html' %}
+    {% block content %}
+
+<div class="container m-4 ">
+    <div class="row">
+            {% for room in latestrooms %}
+            <div class="card m-2" style="width: 18rem;">
+                {% if room.image %}
+                <img src="{{room.image.url}}" class="img-fluid" alt="Card image cap">
+                {% endif %}
+                <div class="card-body">
+                    Room : {{room.title}}<br>
+                    landlord: {{room.landlord.full_name}} <br>
+                    Description: {{room.description|truncatechars:"2"}}
+                    <a href="{% url 'rentapp:roomDetail' room.id %}" class="btn btn-primary">View Detail</a>
+                </div>
+              </div>
+        {% endfor %}
+    </div>
+</div>
+      {% endblock %}
+  

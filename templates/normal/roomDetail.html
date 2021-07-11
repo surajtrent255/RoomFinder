@@ -1,0 +1,37 @@
+{% extends 'normal/base.html' %}
+    {% block content %}
+
+    <div class = "row">
+        <div class = "col-md-8">
+            <h3>Room ~ Detail</h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>Image</th>
+                    <td>       {% if room.image %}
+                        Images: <img src="{{room.image.url}}" class="img-fluid" alt="Card image cap" />
+                        {% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Room</th>
+                    <td><i>{{room.title}}</i> </td>
+                </tr>
+                <tr>
+                    <th>Landlord</th>
+                    <td>{{room.landLord.full_name}}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>
+                        {{room.description}}
+                    </td>
+                </tr>
+    
+            </table>
+            {% if bookingStatus %}
+            <a href="{% url 'rentapp:bookcancel' room.id %}" class="btn btn-primary">Cancel your booking </a>
+            {% else  %}
+            <a href="{% url 'rentapp:roombook' room.id %}" class="btn btn-primary">Book Now</a>
+            {% endif %}
+
+    <br><hr>
+    {% endblock %}

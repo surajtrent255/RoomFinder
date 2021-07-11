@@ -46,7 +46,7 @@ class LandLord(TimeStamp):
         return self.full_name
 
 
-class Customer(TimeStamp):
+class Client(TimeStamp):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=200)
     mobile = models.CharField(max_length=200)
@@ -56,7 +56,7 @@ class Customer(TimeStamp):
         return self.full_name
 
     def save(self, *args, **kwargs):  # save already xa extra logic lekheko
-        group, created = Group.objects.get_or_create(name="Customer")
+        group, created = Group.objects.get_or_create(name="ClientGroup")
         self.user.groups.add(group)
         super().save(*args, **kwargs)
 
@@ -73,7 +73,9 @@ class Room(TimeStamp):
 
 class BookRoom(TimeStamp):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Client, on_delete=models.CASCADE)
+    citizenship_front = models.ImageField(upload_to="BookRoom")
+    citizenship_back = models.ImageField(upload_to="BookRoom")
 
     def __str__(self):
         return self.room.title
