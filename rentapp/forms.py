@@ -14,6 +14,12 @@ class BookRoomForm(forms.ModelForm):
         fields = ['citizenship_front', 'citizenship_back']
 
 
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        exclude = ['landLord']
+
+
 class ClientForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())

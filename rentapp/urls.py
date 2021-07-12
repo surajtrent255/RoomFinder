@@ -20,6 +20,16 @@ urlpatterns = [
     path("client/profile/", ClientProfileView.as_view(), name="clientprofile"),
     path("book/<int:pk>/cancel/", BookCancelView.as_view(), name="bookcancel"),
 
+    path("roomlord/home/", RoomLordHOmeView.as_view(), name="roomLordhome"),
+    path("roomlord/room/", RoomLordRoomsView.as_view(), name="roomlordrooms"),
+    path("roomLord/add/room/", AddRoomByRoomLordView.as_view(),
+         name="addRoomByRoomLord"),
+    path("roomLord/<int:pk>/update/room/",
+         UpdateRoomByRoomLordView.as_view(), name="roomlordupdaterooms"),
+    path("roomLord/<int:pk>/delete/room/",
+         DeleteRoomByRoomLordView.as_view(), name="roomlorddeleterooms"),
+
+
 
 
 

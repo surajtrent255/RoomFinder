@@ -81,7 +81,7 @@ class LoginView(FormView):
         if user.groups.filter(name="Admin").exists():
             return "/admin/home/"
         elif user.groups.filter(name="LandLord").exists():
-            return "/roomlord/home"
+            return "/roomlord/home/"
         elif user.groups.filter(name="ClientGroup").exists():
             return "/"
         else:
@@ -188,8 +188,46 @@ class BookCancelView(ClientRequiredMixin, View):
         room = Room.objects.get(id=room_id)
         user = request.user
         customer = Client.objects.get(user=user)
+        # bookroom object is not iterable if we use get instead of filter" BookRoom can have many booking objects of same user so get method is wrong"
         roomBooks = BookRoom.objects.filter(customer=customer)
         for book in roomBooks:
             if book.room == room:
                 book.delete()
         return redirect("/room/"+str(room_id)+"/detail/")
+
+
+class RoomLordHOmeView(TemplateView):
+    template_name = "roomlord/home.html"
+
+
+class RoomLordRoomsView(TemplateView):
+    template_name = "roomlord/rooms.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        roomLord = LandLord.objects.get(user=self.request.user)
+        context['rooms'] = Room.objects.filter(landLord=roomLord)
+        return context
+
+
+class AddRoomByRoomLordView(CreateView):
+    template_name = "roomlord/addRoom.html"
+    form_class = RoomForm
+    success_url = "/roomlord/room/"
+
+    def form_valid(self, form):
+        form.instance.landLord = LandLord.objects.get(user=self.request.user)
+        return super().form_valid(form)
+
+
+class UpdateRoomByRoomLordView(UpdateView):
+    template_name = "roomLord/updateRoom.html"
+    model = Room
+    form_class = RoomForm
+    success_url = "/roomlord/room/"
+
+
+class DeleteRoomByRoomLordView(DeleteView):
+    template_name = "roomlord/roomlorddelete.html"
+    model = Room
+    success_url = "/roomlord/room/"
