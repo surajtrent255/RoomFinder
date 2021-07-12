@@ -10,14 +10,10 @@ from .forms import *
 # Create your views here.
 
 
-class BaseMixin(object):  # sab page ma pathaunako lagi, natra dropdown sabai page bata aaudaina
+class BaseMixin(object):
     def get_context_data(Self, **kwargs):
-        # maile yo 100 patak vanisake.  #yo buit in method ho over ride gareko hamle.. this method send extra context to client site. jaba hamro html page lai data(category) pathauna parxa taba taba use garne.
         context = super().get_context_data(**kwargs)
-
         context["latestrooms"] = Room.objects.all().order_by("-id")
-        print(context["latestrooms"], "99999999999999999")
-
         return context
 
 
@@ -26,9 +22,7 @@ class HomeView(BaseMixin, TemplateView):
 
 
 class LandLordRequiredMixin(object):
-    # hamro new chromema logged in vayerai aauxa, jo paye tesle vitra pasna pauxa.. ctrl+shift+N for chrome. YESLAI FIRST MAI Rakhnu parxa yo function lai
     def dispatch(self, request, *args, **kwargs):
-        # function ma request xa vane request.user xaina vane self.request.user.
         user = request.user
         if user.is_authenticated and user.groups.filter(name="LandLord").exists():
             pass
@@ -194,12 +188,8 @@ class BookCancelView(ClientRequiredMixin, View):
         room = Room.objects.get(id=room_id)
         user = request.user
         customer = Client.objects.get(user=user)
-        # bookroom object is not iterable if we use get instead of filter" BookRoom can have many booking objects of same user so get method is wrong"
         roomBooks = BookRoom.objects.filter(customer=customer)
         for book in roomBooks:
             if book.room == room:
                 book.delete()
-        print("before redirect **************************")
-
         return redirect("/room/"+str(room_id)+"/detail/")
-        # if roomBooks.filter(room = room).exists():
